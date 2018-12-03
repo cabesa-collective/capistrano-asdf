@@ -1,6 +1,10 @@
 ASDF_USER_PATH = "~/.asdf"
 
 namespace :asdf do
+  desc "Prints the ASDF tools versions on the target host"
+  task :check do
+    puts capture("source $#{fetch(:asdf_path)}/asdf.sh; asdf current")
+  end
   
   task :map_ruby_bins do
     fetch(:asdf_map_ruby_bins).each do |mapped_command|
