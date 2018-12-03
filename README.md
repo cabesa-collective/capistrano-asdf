@@ -31,7 +31,7 @@ And you should be good to go!
 
 There is no configuration yet.
 Everything *should work* for a basic ASDF setup *out of the box*.
-However we strongly encourage you to use the .tool-versions for proper tool version selection.
+However we strongly encourage you to use the `.tool-versions` for proper tool version selection.
 
 ## Restrictions
 
@@ -41,7 +41,7 @@ proper rubies, nodes or other tools.
 
 ## How it works
 
-This gem adds a new task `asdf:hook` before `deploy` task.
+This gem adds new tasks `asdf:map_*` before `deploy` task.
 It loads the ASDF tools environment for capistrano when it wants to run
 some tools related programs like `rake`, `gem`, `bundle`, `node`, `npm` ...
 
