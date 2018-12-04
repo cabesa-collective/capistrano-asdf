@@ -3,21 +3,23 @@ ASDF_USER_PATH = "~/.asdf"
 namespace :asdf do
   desc "Prints the ASDF tools versions on the target host"
   task :check do
-    puts capture("source $#{fetch(:asdf_path)}/asdf.sh; asdf current")
+    on roles(fetch(:asdf_roles, :all)) do
+      execute("source #{fetch(:asdf_path)}/asdf.sh; asdf current")
+    end
   end
   
   task :map_ruby_bins do
     fetch(:asdf_map_ruby_bins).each do |mapped_command|
-      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source $#{fetch(:asdf_path)}/asdf.sh;")
+      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
     end
   end
 
   task :map_nodejs_bins do
     fetch(:asdf_map_nodejs_bins).each do |mapped_command|
-      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source $#{fetch(:asdf_path)}/asdf.sh;")
+      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
     end
     fetch(:asdf_map_nodejs_npm_bins).each do |mapped_command|
-      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source $#{fetch(:asdf_path)}/asdf.sh;")
+      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
     end
   end
   
