@@ -1,4 +1,9 @@
 ASDF_USER_PATH = "~/.asdf"
+ASDF_DEFAULT_TOOLS = %w{ruby nodejs}
+# Ruby related bins
+ASDF_DEFAULT_RUBY_BINS = %w{rake gem bundle ruby rails}
+# Nodejs related bin
+ASDF_DEFAULT_NODEJS_BINS = %w{node npm yarn}
 
 namespace :asdf do
   desc "Prints the ASDF tools versions on the target host"
@@ -9,17 +14,18 @@ namespace :asdf do
   end
   
   task :map_ruby_bins do
-    fetch(:asdf_map_ruby_bins).each do |mapped_command|
-      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
+    if fetch(:asdf_tools).include?('ruby')
+      fetch(:asdf_map_ruby_bins).each do |mapped_command|
+        SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
+      end
     end
   end
 
   task :map_nodejs_bins do
-    fetch(:asdf_map_nodejs_bins).each do |mapped_command|
-      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
-    end
-    fetch(:asdf_map_nodejs_npm_bins).each do |mapped_command|
-      SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
+    if fetch(:asdf_tools).include?('nodejs')
+      fetch(:asdf_map_nodejs_bins).each do |mapped_command|
+        SSHKit.config.command_map.prefix[mapped_command.to_sym].unshift("source #{fetch(:asdf_path)}/asdf.sh;")
+      end
     end
   end
   
@@ -37,8 +43,9 @@ namespace :load do
       asdf_path ||= ASDF_USER_PATH
     }
 
-    set :asdf_map_ruby_bins, %w{rake gem bundle ruby rails}
-    set :asdf_map_nodejs_bins, %w{node npm}
-    set :asdf_map_nodejs_npm_bins, %w{yarn}
+    set :asdf_tools, fetch(:asdf_tools, ASDF_DEFAULT_TOOLS)
+
+    set :asdf_map_ruby_bins, fetch(:asdf_map_ruby_bins, ASDF_DEFAULT_RUBY_BINS)
+    set :asdf_map_nodejs_bins, fetch(:asdf_map_nodejs_bins, ASDF_DEFAULT_NODEJS_BINS)
   end
 end

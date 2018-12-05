@@ -29,9 +29,48 @@ And you should be good to go!
 
 ## Configuration
 
-There is no configuration yet.
 Everything *should work* for a basic ASDF setup *out of the box*.
 However we strongly encourage you to use the `.tool-versions` for proper tool version selection.
+
+If you need some special settings, set those in the stage file for your server:
+
+    # deploy.rb or stage file (staging.rb, production.rb or else)
+    set :asdf_custom_path, '~/.my_asdf_installation_path'  # only needed if not '~/.asdf'
+    set :asdf_tools, %w{ ruby }                            # defaults to %{ ruby nodejs }
+    set :asdf_map_ruby_bins, %w{ bundle gem }              # defaults to %w{ rake gem bundle ruby rails }
+    set :asdf_map_nodejs_bins, %w{ node npm }              # defaults to %w{ node npm yarn }
+
+### Custom ASDF path: `:asdf_custom_path`
+
+If you have a custom ASDF setup with a different path then expected, you have
+to define a custom ASDF path to tell capistrano where it is.
+
+### Custom ASDF tools selection: `:asdf_tools`
+
+If you don't want to use all the tools available (`ruby` and `nodejs`), you have
+to define which one you want to use.
+
+For example; if you just want to use ASDF for ruby, you may set `:asdf_tools`:
+
+    set :asdf_tools, %w{ ruby }
+
+### Custom ASDF ruby binaries selection: `:asdf_map_ruby_bins`
+
+If you want to add or remove which ruby related binaries will be mapped to ASDF ruby installation, you have
+to define which one you want to be mapped.
+
+For example; if you just want to map `bundle` and `gem` ruby binaries, you may set `:asdf_map_ruby_bins`:
+
+    set :asdf_map_ruby_bins, %w{ bundle gem }
+
+### Custom ASDF nodejs binaries selection: `:asdf_map_nodejs_bins`
+
+If you want to add or remove which nodejs related binaries will be mapped to ASDF nodejs installation, you have
+to define which one you want to be mapped.
+
+For example; if you just want to map `node` and `npm` nodejs binaries, you may set `:asdf_map_nodejs_bins`:
+
+    set :asdf_map_nodejs_bins, %w{ node npm }
 
 ## Restrictions
 
