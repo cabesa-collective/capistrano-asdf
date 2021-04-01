@@ -1,3 +1,7 @@
+## 1.0.0
+
+Add asdf:install and asdf:add_plugins tasks
+
 ## 0.0.3
 
 Add some configuration options:

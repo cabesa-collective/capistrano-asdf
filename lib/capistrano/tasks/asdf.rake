@@ -12,7 +12,28 @@ namespace :asdf do
       execute("source #{fetch(:asdf_path)}/asdf.sh; asdf current")
     end
   end
-  
+
+  desc "Install ASDF tools versions based on the .tool-versions of your project"
+  task :install do
+    on roles(fetch(:asdf_roles, :all)) do
+      execute("source #{fetch(:asdf_path)}/asdf.sh; asdf install")
+    end
+  end
+
+  desc "Add ASDF plugins specified in :asdf_tools"
+  task :add_plugins do
+    on roles(fetch(:asdf_roles, :all)) do
+      already_installed_plugins = capture("source #{fetch(:asdf_path)}/asdf.sh; asdf plugin list")&.split
+      fetch(:asdf_tools)&.each do |asdf_tool|
+        if already_installed_plugins.include?(asdf_tool)
+          info "#{asdf_tool} Already installed"
+        else
+          execute("source #{fetch(:asdf_path)}/asdf.sh; asdf plugin add #{asdf_tool}")
+        end
+      end
+    end
+  end
+
   task :map_ruby_bins do
     if fetch(:asdf_tools).include?('ruby')
       fetch(:asdf_map_ruby_bins).each do |mapped_command|
@@ -30,6 +51,9 @@ namespace :asdf do
   end
   
 end
+
+before 'asdf:install', 'asdf:add_plugins'
+after 'deploy:check', 'asdf:check'
 
 Capistrano::DSL.stages.each do |stage|
   after stage, 'asdf:map_ruby_bins'
