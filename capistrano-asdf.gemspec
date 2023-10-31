@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "capistrano-asdf"
-  gem.version       = '1.0.0'
+  gem.version       = '1.1.0'
   gem.licenses      = ['MIT']
   gem.authors       = ["Jean-Baptiste Poix"]
   gem.email         = ["jbpoix@inosophia.com"]

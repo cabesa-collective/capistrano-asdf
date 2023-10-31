@@ -84,12 +84,21 @@ This gem adds new tasks `asdf:map_*` before `deploy` task.
 It loads the ASDF tools environment for capistrano when it wants to run
 some tools related programs like `rake`, `gem`, `bundle`, `node`, `npm` ...
 
+## Generate and upload the ASDF commands wrapper
+
+The ASDF wrapper is needed to correctly run the mapped commands.
+Since the wrapper is an executable script, it can be used in Systemd units.
+
+    $ cap production asdf:upload_wrapper
+
+This task is automaticaly called before `asdf:check`
+
 ## Install required tools
 
 If you want your tools (ruby, nodejs) to be installed, you can use the `asdf:install` task to
 preform plugins add and then install of required versions from your `.tool-versions`.
 `asdf:install` will automaticaly add necessary plugins running `asdf:add_plugins`.
-If you want to change the plugins to install you my set `:asdf_tools` accordingly.
+If you want to change the plugins to install you may set `:asdf_tools` accordingly.
 
     $ cap production asdf:install
 

@@ -1,3 +1,8 @@
+## 1.1.0
+
+Upload and use an ASDF wrapper to fully load ASDF environnement before executing commands.
+The wrapper is generated in `<shared_path>/asdf-wrapper` by default, but can be generated elsewhere by setting `:asdf_custom_wrapper_path` capistrano variable.
+
 ## 1.0.0
 
 Add asdf:install and asdf:add_plugins tasks
