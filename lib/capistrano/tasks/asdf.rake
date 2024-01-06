@@ -5,18 +5,18 @@ ASDF_DEFAULT_RUBY_BINS = %w{rake gem bundle ruby rails}
 # Nodejs related bin
 ASDF_DEFAULT_NODEJS_BINS = %w{node npm yarn}
 
-ASDF_DEFAULT_WRAPPER_TEMPALTES = %{
+ASDF_DEFAULT_WRAPPER_TEMPLATES = <<~WRAPPER
   #!/usr/bin/env bash
 
   . @@ASDF_USER_PATH@@/asdf.sh
   exec "$@"
-}
+WRAPPER
 
 namespace :asdf do
   desc "Upload ASDF wrapper to the target host"
   task :upload_wrapper do
     on roles(fetch(:asdf_roles, :all)) do
-      wrapper_content = ASDF_DEFAULT_WRAPPER_TEMPALTES.gsub('@@ASDF_USER_PATH@@', fetch(:asdf_path))
+      wrapper_content = ASDF_DEFAULT_WRAPPER_TEMPLATES.gsub('@@ASDF_USER_PATH@@', fetch(:asdf_path))
       need_to_upload_wrapper = true
       # Check if the wrapper already exists
       if test("[ -f #{fetch(:asdf_wrapper_path)} ]")
@@ -85,7 +85,7 @@ namespace :asdf do
       end
     end
   end
-  
+
 end
 
 before 'asdf:install', 'asdf:add_plugins'
