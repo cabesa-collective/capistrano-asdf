@@ -1,3 +1,7 @@
+## 1.1.1
+
+Fix ASDF wrapper.
+
 ## 1.1.0
 
 Upload and use an ASDF wrapper to fully load ASDF environnement before executing commands.
